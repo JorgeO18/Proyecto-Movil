@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Registro_cita",
-    "slug": "Registro_cita",
+    "name": "EjProyecto",
+    "slug": "EjProyecto",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "registrocita",
+    "scheme": "ejproyecto",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
