@@ -6,6 +6,10 @@ import { Ionicons } from '@expo/vector-icons';
 export default function WelcomeScreen() {
   const router = useRouter();
 
+// flatlist es una lista que se puede desplazar
+//safeAreaView Es un contenedor que asegura que tu contenido no quede pegado ni tapado por los bordes del celular.
+// statusbar es la barra que muestra la hora, la bateria, la señal, etc
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" backgroundColor="#F3F4F6" />

@@ -4,6 +4,10 @@ import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
+// flatlist es una lista que se puede desplazar
+//safeAreaView es un componente que se asegura de que la pantalla sea visible(Evita zonas peligrosas (notch, bordes))
+// statusbar es la barra que muestra la hora, la bateria, la señal, etc
+
 // Datos fijos o quemados solo para diseño
 const dummyCitas = [
   { id: '1', patientName: 'Ana García', specialty: 'Medicina General', date: '15/11/2026', time: '10:00' },

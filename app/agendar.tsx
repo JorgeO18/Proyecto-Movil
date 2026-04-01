@@ -7,6 +7,9 @@ import { Ionicons } from '@expo/vector-icons';
 export default function AgendarScreen() {
   const router = useRouter();
 
+ // KeyboardAvoidingView evita que el teclado tape los campos
+// Platform Detecta si es Android o iOS
+ 
   const [patientName, setPatientName] = useState('');
   const [document, setDocument] = useState('');
   const [specialty, setSpecialty] = useState('Medicina General');
