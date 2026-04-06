@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect, useMemo } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 // flatlist es una lista que se puede desplazar
@@ -9,19 +9,60 @@ import { Ionicons } from '@expo/vector-icons';
 // statusbar es la barra que muestra la hora, la bateria, la señal, etc
 
 // Datos fijos o quemados solo para diseño
-const dummyCitas = [
-  { id: '1', patientName: 'Ana García', specialty: 'Medicina General', date: '15/11/2026', time: '10:00' },
-  { id: '2', patientName: 'Carlos López', specialty: 'Odontología', date: '16/11/2026', time: '14:30' },
-  { id: '3', patientName: 'María Rodríguez', specialty: 'Pediatría', date: '18/11/2026', time: '09:15' },
-];
+
 
 export default function HomeScreen() {
-  const router = useRouter();
-  const [filterSpecialty, setFilterSpecialty] = useState<string>('');
+  type Cita = {
+    idCita: number;
+    idPaciente: string;
+    nomPaciente: string;
+    especialidad: string;
+    fechaHora: string;
+    estado: string;
+    observaciones: string;
+  };
 
-  const filteredCitas = filterSpecialty
-    ? dummyCitas.filter(c => c.specialty === filterSpecialty)
-    : dummyCitas;
+  //const { lista } = useLocalSearchParams();
+  const router = useRouter();
+  const { lista } = useLocalSearchParams();
+  const parsedLista = useMemo(() => {
+    return lista ? JSON.parse(lista as string) : [];
+  }, [lista]);
+  const [filtro, setFiltro] = useState("");
+  
+
+  const [listaFiltrada,setListaFiltrada] = useState<Cita[]>([]);
+  useEffect(() => {
+  if (lista) {
+    setListaFiltrada(JSON.parse(lista as string));
+  }
+}, [lista]);
+  useEffect(() => {
+  setListaFiltrada(parsedLista);
+}, [parsedLista]);
+
+
+  const filtrar = async(especialidad :string)=>{
+    
+    if (especialidad === "") {
+      setListaFiltrada(parsedLista);
+      
+    } else {
+      const filtrados = parsedLista.filter((item:any) => item.especialidad === especialidad);
+      setListaFiltrada(filtrados);
+    }
+  }
+
+
+
+
+
+
+
+
+  
+
+  
 
   const getSpecialtyColor = (spec: string) => {
     switch (spec) {
@@ -59,8 +100,8 @@ export default function HomeScreen() {
           <Text style={styles.filterLabel}>Especialidad</Text>
           <View style={styles.pickerWrapper}>
             <Picker
-              selectedValue={filterSpecialty}
-              onValueChange={(itemValue) => setFilterSpecialty(itemValue)}
+              selectedValue={filtro}
+              onValueChange={(itemValue) => {setFiltro(itemValue);filtrar(itemValue);}}
               style={styles.picker}
             >
               <Picker.Item label="Todas las especialidades" value="" />
@@ -72,8 +113,8 @@ export default function HomeScreen() {
         </View>
 
         <FlatList
-          data={filteredCitas}
-          keyExtractor={item => item.id}
+          data={listaFiltrada}
+          keyExtractor={(item:Cita)=>item.idCita.toString()}
           contentContainerStyle={{ paddingBottom: 100 }}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={
@@ -87,21 +128,21 @@ export default function HomeScreen() {
             <TouchableOpacity 
               style={styles.citaCard}
               activeOpacity={0.8}
-              onPress={() => router.push(`/detalle/${item.id}` as any)}
+              onPress={() => router.push({pathname:`/detalle/${item.idCita}` as any,params:{lista}})}
             >
-              <View style={[styles.cardBorder, { backgroundColor: getSpecialtyColor(item.specialty) }]} />
+              <View style={[styles.cardBorder, { backgroundColor: getSpecialtyColor(item.especialidad) }]} />
               <View style={styles.cardContent}>
                 <View style={styles.cardHeader}>
-                  <Text style={styles.citaName}>{item.patientName}</Text>
+                  <Text style={styles.citaName}>{item.nomPaciente}</Text>
                   <Ionicons name="chevron-forward" size={20} color="#94a3b8" />
                 </View>
                 <View style={styles.cardDetail}>
-                  <Ionicons name={getSpecialtyIcon(item.specialty) as any} size={16} color={getSpecialtyColor(item.specialty)} />
-                  <Text style={[styles.citaSpecialty, { color: getSpecialtyColor(item.specialty) }]}>{item.specialty}</Text>
+                  <Ionicons name={getSpecialtyIcon(item.especialidad) as any} size={16} color={getSpecialtyColor(item.especialidad)} />
+                  <Text style={[styles.citaSpecialty, { color: getSpecialtyColor(item.especialidad) }]}>{item.especialidad}</Text>
                 </View>
                 <View style={styles.cardTime}>
                   <Ionicons name="time-outline" size={16} color="#64748b" />
-                  <Text style={styles.citaDate}>{item.date} • {item.time}</Text>
+                  <Text style={styles.citaDate}>{item.fechaHora}</Text>
                 </View>
               </View>
             </TouchableOpacity>
