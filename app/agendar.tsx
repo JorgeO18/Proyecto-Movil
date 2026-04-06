@@ -10,12 +10,12 @@ import {
   Platform,
   Modal,
   Pressable,
-  Button
+  
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
 
 export default function AgendarScreen() {
@@ -87,7 +87,7 @@ export default function AgendarScreen() {
     
   };
 
-  const onChange = (event: any, selectedDate: Date) => {
+  const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     if (event.type === "dismissed") {
       setShow(false);
       return;
