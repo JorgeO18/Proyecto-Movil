@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import {
   
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
@@ -32,6 +32,10 @@ export default function AgendarScreen() {
     estado: string;
     observaciones: string;
   };
+  const { lista } = useLocalSearchParams();
+  const parsedLista = useMemo(() => {
+    return lista ? JSON.parse(lista as string) : [];
+  }, [lista]);
 
   const [contador, setContador] = useState(1);
   const [idPaciente, setIdPaciente] = useState("");
@@ -39,7 +43,8 @@ export default function AgendarScreen() {
   const [especialidad, setEspecialidad] = useState("");
   const [fechaHora, setFechaHora] = useState(new Date());
   const [observaciones, setObservaciones] = useState("");
-  const [lista, setLista] = useState<Cita[]>([]);
+  const [listaCitas, setListaCitas] = useState<Cita[]>(parsedLista || []);
+  
 
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
@@ -54,7 +59,7 @@ export default function AgendarScreen() {
 
     if (!verfDatos) {
       const nFecha = formatearFechaHora(fechaHora);
-      const compFechas = verifFecha(nFecha, lista);
+      const compFechas = verifFecha(nFecha, listaCitas);
       if (compFechas === true) {
         alert("Las fechas no deben coincidir");
       } else {
@@ -69,8 +74,9 @@ export default function AgendarScreen() {
           observaciones: observaciones,
         };
         if (loading === false) {
-          const nueva = [...lista, newCita];
-          setLista(nueva);
+          const nueva = [...listaCitas, newCita];
+          setListaCitas(nueva);
+          console.log(nueva);
         }
         iniciarProceso()
         setEspecialidad("");
@@ -170,11 +176,11 @@ export default function AgendarScreen() {
   };
 
   const handleSave = () => {
-    // Lógica removida. Solo mostramos el modal visual.
+    
     
     return (router.push({
       pathname: "/citas",
-      params: { lista: JSON.stringify(lista) }}))
+      params: { lista: JSON.stringify(listaCitas) }}))
     
   };
 
@@ -203,9 +209,9 @@ export default function AgendarScreen() {
             style={styles.backButton}
             onPress={() =>
           router.replace({
-            pathname: "/citas",
+            pathname: "/",
             params: {
-              lista: JSON.stringify(lista),
+              lista: JSON.stringify(listaCitas),
             },
           })}
           >
@@ -322,19 +328,7 @@ export default function AgendarScreen() {
         </View>
         <View style={{flexDirection:'row',gap:'6',justifyContent:'center'}}>
 
-        <TouchableOpacity
-          style={[styles.buttonPrimary,{backgroundColor: "#8f77e7"}]}
-          onPress={()=>{handleSave()}}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.buttonText}>Ver Citas</Text>
-          <Ionicons
-            name="document-text-outline"
-            size={22}
-            color="#ffffff"
-            style={{ marginLeft: 8 }}
-          />
-        </TouchableOpacity>
+        
         <TouchableOpacity
           style={styles.buttonPrimary}
           onPress={()=>{guardar()}}

@@ -52,7 +52,7 @@ export default function WelcomeScreen() {
 
           <TouchableOpacity
             style={styles.buttonSecondary}
-            onPress={() => router.push("/agendar")}
+            onPress={() => router.push({pathname:"/agendar",params:{lista:lista}})}
             activeOpacity={0.8}
           >
             <Ionicons

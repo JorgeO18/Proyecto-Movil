@@ -18,6 +18,7 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="citas" options={{ headerShown: false }} />
         <Stack.Screen name="agendar" options={{ headerShown: false }} />
+        <Stack.Screen name="detalle/[id]" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
