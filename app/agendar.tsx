@@ -81,7 +81,11 @@ export default function AgendarScreen() {
         setContador(contador + 1);
       }
     } else {
-      alert("Rellene todos los campos");
+      showAlert(
+      "Error",
+      "Rellene todos los cambios",
+      "error",
+      () =>{});
     }
     
     

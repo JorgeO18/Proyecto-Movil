@@ -340,68 +340,7 @@ export default function DetalleCitaScreen() {
 
 ---
 
-## 6. `app/editar/[id].tsx`
-
-**Descripción General:** Funcional y arquitectónicamente un paralelo a la sección `agendar`, pero destacándose por pre-cargar datos ("Seeded state") en la RAM para emular validación e interacción dinámica (Operación Formulario Estilo PUT).
-
-### Código Explicado:
-```tsx
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, ... Modal } from 'react-native';
-import { useRouter } from 'expo-router';
-
-export default function EditarScreen() {
-  const router = useRouter();
-
-  // ATENCIÓN - Diferencial vs form original (Agendar):
-  // Inicializamos múltiples propiedades del Estado ('Ejemplo Visual', '1234')  
-  // No comienzan desde nulo; asimilan en memoria traer toda esa información predefinida 
-  const [patientName, setPatientName] = useState('Ejemplo Visual');
-  const [document, setDocument] = useState('12345678');
-  ...
-  
-  // Variables comunes compartidas de sistema alerta genérico
-  const [alertVisible, setAlertVisible] = useState(false);
-  const [alertConfig, setAlertConfig] = useState({...});
-  const showAlert = (...) => { ... }
-
-  /**
-   * Función Simuladora Final de Exito
-   */
-  const handleUpdate = () => {
-    // Declara y arranca visualmente el aviso y empuja en un Subprocedimiento hacia Atras, 
-    // matando el cascarón de este archivo editador.
-    showAlert('Demostración', 'Modo Maqueta Visual...', 'success', () => router.back());
-  };
-
-  return (
-    // Idéntico y unívoco bloque Paramétrico (Evitador Teclado y Visión con Scrollbar)
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <ScrollView>
-        {/* Aquí la variable patientName entra pre-llenada automáticamente gracias a la precarga `useState` inicial */}
-        <TextInput 
-          value={patientName} 
-          onChangeText={setPatientName} 
-        />
-        
-        {/* Instante Guardada al tocar botón */}
-        <TouchableOpacity style={styles.buttonPrimary} onPress={handleUpdate}>
-          <Text>Simular Actualización</Text>
-        </TouchableOpacity>
-      </ScrollView>
-
-      {/* Despachador Emergente  */}
-      <Modal visible={alertVisible}>
-         ... {/*  Emite un pop-up con contenido dinámico. */}
-      </Modal>
-    </KeyboardAvoidingView>
-  );
-}
-```
-
----
-
-## 7. `app/modal.tsx`
+## 6. `app/modal.tsx`
 
 **Descripción General:** Archivo anexo demostrativo y residual. Sirve para exponer el concepto teórico de Modales base de Expo sin impacto verdadero o relacional a la app.
 

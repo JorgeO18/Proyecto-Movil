@@ -44,7 +44,7 @@ export default function HomeScreen() {
 
   const filtrar = async(especialidad :string)=>{
     
-    if (especialidad === "") {
+    if (especialidad === "") {  
       setListaFiltrada(parsedLista);
       
     } else {

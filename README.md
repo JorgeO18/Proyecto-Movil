@@ -1,50 +1,43 @@
-# Welcome to your Expo app 👋
+# SaludPlus - Gestor Médico Integral
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+SaludPlus es una aplicación móvil desarrollada con [React Native](https://reactnative.dev/) y [Expo](https://expo.dev/). Su propósito es servir como un prototipo visual interactivo (mockup) para la gestión de citas médicas, permitiendo explorar la interfaz de usuario, los flujos de navegación y las interacciones sin requerir de servicios backend vivos ni persistencia real de datos.
 
-## Get started
+## Características Principales
 
-1. Install dependencies
+- **Dashboard Principal:** Acceso centralizado y fluido a las diferentes herramientas médicas y administrativas.
+- **Consulta de Citas:** Lista de pacientes (datos simulados), funcionalidad de filtrado de acuerdo a especializaciones (por ejemplo, "Pediatría" u "Odontología") y previsualización rápida.
+- **Detalle de la Cita:** Presentación detallada e individual de la cita elegida con operaciones de demostración para cancelación.
+- **Agendamiento:** Formulario optimizado para móviles (incluyendo soporte de `KeyboardAvoidingView` para una mejor experiencia táctil) y notificaciones in-app personalizadas.
 
-   ```bash
-   npm install
-   ```
+## Tecnologías y Arquitectura
 
-2. Start the app
+- **Framework:** React Native + Expo.
+- **Ruteo:** [Expo Router](https://docs.expo.dev/router/introduction/) implementando el sistema basado en archivos en el directorio `/app`.
+- **Estructura Conceptual:** Todo concepto transaccional como el Context API y llamadas API han sido retiradas, resultando en un prototipo enteramente presentatorio enfocado en diseño moderno y experiencia de usuario.
 
-   ```bash
-   npx expo start
-   ```
+## Primeros Pasos
 
-In the output, you'll find options to open the app in a
+### 1. Instalación de Dependencias
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Asegúrate de contar con Node.js en tu sistema, y posteriormente ejecuta:
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Iniciar el Servidor de Desarrollo
 
-## Learn more
+Una vez instalados los paquetes, puedes iniciar el proyecto:
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npx expo start
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Cuando aparezca el menú en la consola de comandos, podrás optar por levantar el sistema en:
+- Emulador de Android
+- Simulador de iOS
+- Aplicación de [Expo Go](https://expo.dev/go) en tu celular físico, escaneando el código QR.
 
-## Join the community
+## Documentación del Código
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Para detalles específicos sobre la implementación de las pantallas del proyecto, por favor revisa el documento [`Documentacion_App.md`](./Documentacion_App.md), que explica exhaustiva y detalladamente los archivos del directorio `/app`.
