@@ -36,11 +36,7 @@ export default function DetalleCitaScreen() {
     setListaState(nuevaLista);
   };
 
-  const handleCancelar = () => {
-    // No hay base de datos. Solo ocultamos el alerta de confirmación y volvemos visualmente.
-    setModalVisible(false);
-    router.back();
-  };
+  
 
   const getSpecialtyColor = (spec: string) => {
     switch (spec) {

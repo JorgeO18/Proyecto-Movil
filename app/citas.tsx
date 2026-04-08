@@ -154,7 +154,12 @@ export default function HomeScreen() {
 
       <TouchableOpacity 
         style={styles.fab} 
-        onPress={() => router.push('/agendar')}
+        onPress={() => router.replace({
+            pathname: "/agendar",
+            params: {
+              lista: JSON.stringify(parsedLista),
+            },
+          })}
         activeOpacity={0.9}
       >
         <Ionicons name="add" size={32} color="#ffffff" />
