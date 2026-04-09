@@ -19,7 +19,7 @@ import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/dat
 
 
 export default function AgendarScreen() {
-  const router = useRouter();
+  const router = useRouter();// router es para navegar entre pantallas
 
   // KeyboardAvoidingView evita que el teclado tape los campos
   // Platform Detecta si es Android o iOS

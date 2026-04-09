@@ -126,7 +126,8 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen() {
-  // Tipado estricto TS para el objeto "Cita" que da forma algorítmica al arreglo
+  // Tipado estricto TS para el objeto "Cita" que da forma algorítmica al arreglo 
+  //tipado es para que el programa sepa que tipo de datos va a recibir
   type Cita = {
     idCita: number;
     idPaciente: string;
@@ -137,6 +138,7 @@ export default function HomeScreen() {
     observaciones: string;
   };
 
+// router es para navegar entre pantallas
   const router = useRouter();
   
   // Rescata el arrastre temporal JSON en texto desde el ruteador HTTP local
@@ -162,6 +164,7 @@ export default function HomeScreen() {
   }, [parsedLista]);
 
   // Controlador lógico imperativo. Vacía todo al original si no hay nada en Picker, o usa un filtrado (.filter()) de Javascript puro.
+//picker es un menu desplegable
   const filtrar = async(especialidad :string)=>{
     if (especialidad === "") {  
       setListaFiltrada(parsedLista);
@@ -189,7 +192,7 @@ export default function HomeScreen() {
       default: return 'medkit';
     }
   };
-
+// return debuelve la pantalla de citas con el menu desplegable y la lista de citas filtrada
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor="#4338ca" />
@@ -243,6 +246,7 @@ export default function HomeScreen() {
             </View>
           }
           // El render individual en bucle 
+          //aqui este codigo hace que se muestren las citas en tarjetas y cuando se toca una cita se va a la pantalla de detalle
           renderItem={({ item }) => (
             <TouchableOpacity 
               style={styles.citaCard}
@@ -316,6 +320,7 @@ export default function AgendarScreen() {
   const [lista, setLista] = useState<Cita[]>([]);
 
   // Bandas locales de Timers e invocadores
+  // esto lo que hace es que el boton de guardar se ponga en loading mientras se guarda la cita
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [mode, setMode] = useState<"date" | "time">("date");
@@ -326,16 +331,17 @@ export default function AgendarScreen() {
    */
   const guardar = () => {
     // 1. Condicional anti-blancos
+    //esto lo que hace es que no se pueda guardar una cita si algun campo esta vacio
     const verfDatos =
       idPaciente.trim() === "" ||
       nomPaciente.trim() === "" ||
       especialidad.trim() === "" ||
       observaciones.trim() === "";
-
+// si no se cumple la condicion de que algun campo este vacio se ejecuta el codigo de abajo
     if (!verfDatos) {
       const nFecha = formatearFechaHora(fechaHora);
       const compFechas = verifFecha(nFecha, lista);
-
+// si la fecha es igual a alguna fecha de la lista se muestra una alerta
       if (compFechas === true) {
         alert("Las fechas no deben coincidir");
       } else {
@@ -348,6 +354,7 @@ export default function AgendarScreen() {
           estado: "Confirmada",
           observaciones: observaciones,
         };
+        // aqui se agrega la nueva cita a la lista
         if (loading === false) {
           const nueva = [...lista, newCita];
           setLista(nueva);
@@ -376,24 +383,26 @@ export default function AgendarScreen() {
       return;
     }
     const currentDate = selectedDate || fechaHora;
-
+//aqui se valida que la fecha no sea pasada
     if (mode === "date") {
       const hoy = new Date();
       // Anula matemáticamente las horas de las firmas de tiempo para comparar exclusivamente Días.
       const f1 = new Date(currentDate).setHours(0, 0, 0, 0);
       const f2 = new Date(hoy).setHours(0, 0, 0, 0);
-
+// si la fecha es igual a la fecha actual se muestra una alerta
       if (f1 <= f2) {
         alert("No puedes seleccionar fechas pasadas o de hoy");
         setShow(false);
         return;
       }
+      // aqui se cambia el modo a time para que se pueda seleccionar la hora
       setFechaHora(currentDate);
       setMode("time"); // Vuelve a ejecutar pidiendo horas
       setShow(true);
     } else {
       // Impone jornada comercial 8 AM a 5 PM 
       const hora = currentDate.getHours();
+      //aqui se valida que la hora no sea menor a 8 o mayor o igual a 17
       if (hora < 8 || hora >= 17) {
         alert("Solo puedes seleccionar entre 8:00 AM y 5:00 PM");
         setShow(false);
@@ -428,21 +437,25 @@ export default function AgendarScreen() {
   };
 
   // Helpers visuales para Modales Personalizados
+  //aqui se declaran las variables para el modal
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertConfig, setAlertConfig] = useState({ title: "", message: "", type: "error" as "error" | "success", onConfirm: () => {}, });
-
+//aqui se muestra el modal
   const showAlert = (title: string, message: string, type: "error" | "success", onConfirm: () => void = () => {}) => {
     setAlertConfig({ title, message, type, onConfirm });
     setAlertVisible(true);
   };
 
   // Escape de transporte desde otra botonera que empuja los datos al histórico
+  //aqui se guarda la cita y se redirecciona a la pantalla de citas
+  // handleSave es una funcion que se ejecuta cuando se presiona el boton de guardar
   const handleSave = () => {
+    //aqui se redirecciona a la pantalla de citas
     return (router.push({
       pathname: "/citas",
       params: { lista: JSON.stringify(lista) }}))
   };
-
+//aqui se formatea la fecha y la hora
   const formatearFechaHora = (fecha: Date) => {
      // ... Utiliza API nativa 'toLocaleString' JS para generar un texto legible...
   }
@@ -451,7 +464,6 @@ export default function AgendarScreen() {
     // Re-estructurador dinámico para móviles que empuja el panel hacia arriba a medida de la pantalla sin tapar cajas con el teclado nativo físico
     <KeyboardAvoidingView style={styles.keyboardView} behavior={Platform.OS === "ios" ? "padding" : undefined}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
-        
         {/* Cabeceras Base... */}
         <View style={styles.headerRow}>
           <TouchableOpacity style={styles.backButton} onPress={() => router.replace({ pathname: "/citas", params: { lista: JSON.stringify(lista) }})}>
@@ -461,6 +473,7 @@ export default function AgendarScreen() {
 
         <View style={styles.formCard}>
           {/* Construcción clásica bidireccional "Value -> onChangeText" del texto puro escrito. */}
+          {/*aqui se muestra el nombre del paciente*/}
           <Text style={styles.label}>Nombre del Paciente *</Text>
           <View style={styles.inputContainer}>
             <Ionicons name="person-outline" size={20} color="#94a3b8" style={styles.icon} />
@@ -474,7 +487,9 @@ export default function AgendarScreen() {
           
           {/* ... Inputs documentales y Picker especiales omitidos por repetición .. */}
           
-          {/* Implementación nativa Pressable para levantar calendario de librería independiente */}
+          {/* Implementación nativa Pressable para levantar calendario de librería independiente */
+            //aqui se muestra la fecha y la hora
+          }
           <View style={styles.row}>
             <View style={styles.col}>
               <Text style={styles.label}>Fecha y hora *</Text>
@@ -490,7 +505,9 @@ export default function AgendarScreen() {
             </View>
           </View>
 
-        {/* Doble Botonera Operativa */}
+        {/* Doble Botonera Operativa */
+          //aqui se muestra la doble botonera operativa
+        }
         <View style={{flexDirection:'row',gap:'6',justifyContent:'center'}}>
           <TouchableOpacity style={[styles.buttonPrimary,{backgroundColor: "#8f77e7"}]} onPress={()=>{handleSave()}} activeOpacity={0.8}>
             <Text style={styles.buttonText}>Ver Citas</Text>

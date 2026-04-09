@@ -8,7 +8,7 @@ import { useColorScheme } from '../hooks/use-color-scheme';
 export const unstable_settings = {
   initialRouteName: 'index',
 };
-
+// router es para navegar entre pantallas
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 

@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function WelcomeScreen() {
   const router = useRouter();
   const { lista } = useLocalSearchParams();
-
+// router es para navegar entre pantallas
   // flatlist es una lista que se puede desplazar
   //safeAreaView Es un contenedor que asegura que tu contenido no quede pegado ni tapado por los bordes del celular.
   // statusbar es la barra que muestra la hora, la bateria, la señal, etc

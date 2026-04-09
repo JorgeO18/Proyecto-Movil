@@ -21,7 +21,7 @@ export default function HomeScreen() {
     estado: string;
     observaciones: string;
   };
-
+// router es para navegar entre pantallas
   //const { lista } = useLocalSearchParams();
   const router = useRouter();
   const { lista } = useLocalSearchParams();

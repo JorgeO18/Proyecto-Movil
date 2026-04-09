@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
+// router es para navegar entre pantallas
 export default function DetalleCitaScreen() {
   const router = useRouter();
   const [modalVisible, setModalVisible] = useState(false);
